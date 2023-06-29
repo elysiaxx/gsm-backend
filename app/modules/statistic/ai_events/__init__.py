@@ -1,0 +1,1 @@
+from .ai_events_view import api as ns_ai

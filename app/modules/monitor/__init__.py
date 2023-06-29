@@ -1,0 +1,1 @@
+from .monitor_view import api as ns_monitor

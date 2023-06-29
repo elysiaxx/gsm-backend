@@ -1,0 +1,1 @@
+from .policy_view import api as ns_policy

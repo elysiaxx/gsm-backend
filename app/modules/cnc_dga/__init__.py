@@ -1,0 +1,1 @@
+from .cnc_dga_view import api as ns_cnc_dga

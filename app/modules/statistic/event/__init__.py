@@ -1,0 +1,1 @@
+from .event_view import api as ns_event

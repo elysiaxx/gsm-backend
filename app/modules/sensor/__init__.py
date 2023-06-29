@@ -1,0 +1,1 @@
+from .sensor_view import api as ns_sensor

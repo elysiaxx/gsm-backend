@@ -1,0 +1,1 @@
+from .automation_view import api as ns_automation

@@ -1,0 +1,21 @@
+PROTOCOLS = {
+    "0": "HOPORT",
+    "1": "ICMP",
+    "2": "IGMP",
+    "3": "GGP",
+    "4": "IP",
+    "5": "ST",
+    "6": "TCP",
+    "7": "CBT",
+    "8": "EGP",
+    "9": "IGP",
+    "10": "BBN-RCC-MON",
+    "11": "NVP-II",
+    "12": "PUP",
+    "13": "ARGUS",
+    "14": "EMCON",
+    "15": "XNET",
+    "16": "CHAOS",
+    "17": "UDP",
+    "128": "SSCOPMCE"
+}
