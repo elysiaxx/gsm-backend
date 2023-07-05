@@ -23,18 +23,22 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     DEBUG_TB_ENABLED = True
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Gsm%402022@localhost:3306/gsm'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + os.getenv("MYSQL_USERNAME", "root") + ":"\
+    + os.getenv("MYSQL_PASSWORD", "Gsm%402022") + "@" + os.getenv("MYSQL_HOST", "localhost") + ":3306/gsm"
     MONGODB_SETTINGS = {
-        'host': 'mongodb://root:Gsm%402022@localhost:27017/gsm?authSource=admin',
+        'host': 'mongodb://' + os.getenv('MONGO_USERNAME','root') + ':' \
+        + os.getenv("MONGO_PASSWORD", "Gsm%402022") + "@" + os.getenv("MONGO_HOST", "localhost") + ":27017/gsm?authSource=admin",
         'db': 'gsm'
     }
 
 
 class ProductionConfig(Config):
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://gsm_mysql:Gsm%402022@117.4.240.104:2098/gsm'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + os.getenv("MYSQL_USERNAME", "root") + ":"\
+    + os.getenv("MYSQL_PASSWORD", "Gsm%402022") + "@" + os.getenv("MYSQL_HOST", "localhost") + ":3306/gsm"
     MONGODB_SETTINGS = {
-        'host': 'mongodb://root:Gsm%402022@localhost:27017/gsm?authSource=admin',
+        'host': 'mongodb://' + os.getenv('MONGO_USERNAME','root') + ':' \
+        + os.getenv("MONGO_PASSWORD", "Gsm%402022") + "@" + os.getenv("MONGO_HOST", "localhost") + ":27017/gsm?authSource=admin",
         'db': 'gsm'
     }
     
@@ -55,7 +59,7 @@ class RedisConfig(Config):
     Redis Configuration
     """
     
-    HOST = "localhost"
+    HOST = os.getenv("REDIS_HOST", "localhost")
     PORT = 6379
     DB = 0
 

@@ -1,0 +1,8 @@
+services:
+  gsm-backend:
+    image: .
+    tty: true
+    volumes:
+      - ./:/app
+    ports:
+      - 8000:5002
