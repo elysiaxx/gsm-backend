@@ -232,6 +232,7 @@ class RecentUpdate(Resource):
         controller = PolicyController()
         return controller.get_recent_update()
 
+
 @api.route('/rule/<int:id>')
 class Rule(Resource):
     @token_required

@@ -18,6 +18,8 @@ from utils.message_code import ErrorCode
 from utils.response import send_error, send_result
 from utils.policy.policy_handler import *
 from utils.util import add_2_conf, add_msg_2_sidmap, add_rule_to_file, backup_file, check_file_name, datetime_2_int, delete_rule_from_file, get_rule_file_path, list_2_dict, match_rule_in_file, save_rules_2_file, update_rule_from_file, update_status_rules_file
+from sqlalchemy import delete, exists, select
+from sqlalchemy.orm import aliased
 
 class PolicyController():
 
@@ -700,7 +702,7 @@ class PolicyController():
                 if not pobj:
                     return send_error(code=ErrorCode.BAD_REQUEST, message=err)
                 
-                tmp = Rule.query.filter(Rule.file_id==rule.file_id, Rule.raw_text==data['raw_text']).first()
+                tmp = Rule.query.filter(Rule.file_id==rule.file_id, Rule.raw_text==data['raw_text'], Rule.id !=rule.id).first()
                 if tmp:
                     return send_error(code=ErrorCode.BAD_REQUEST, message='Raw text already exist')
             
@@ -763,6 +765,7 @@ class PolicyController():
             return send_result(code=200, data=marshal(rule, PolicyDto.model_rule_response))
         except Exception as e:
             return send_error(code=ErrorCode.INTERNAL_SERVER_ERROR, message=e.__str__())
+    
     
     def delete_rule(self, object_id, req):
         '''

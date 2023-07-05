@@ -38,6 +38,7 @@ import ipaddress
 from utils.policy.policy_util import is_numeric
 from utils.protocol import PROTOCOLS
 import validators
+from collections import defaultdict
 
 
 def encode_file_name(filename):
@@ -993,7 +994,7 @@ def get_values_by_key(dict_list, key):
     return values
   
 def fill_data_monitor(data, first, last, keys):
-    data = remove_duplicate_dicts(data, 'timestamp')
+    data = merge_dicts_by_timestamp(data, 'timestamp')
     tmp = get_values_by_key(data, 'timestamp')
     for x in range(first + 1, last + 1):
         if x not in tmp:
@@ -1004,18 +1005,28 @@ def fill_data_monitor(data, first, last, keys):
             data.append(t)
     return sorted(data, key=lambda x: x['timestamp'])
   
-def remove_duplicate_dicts(dict_list, attribute):
-    sorted_list = sorted(dict_list, key=lambda x: x[attribute], reverse=True)
-    unique_values = set()
-    result = []
+def merge_dicts_by_timestamp(arr, timestamp_key):
+    merged_dict = defaultdict(int)
+    
+    for dictionary in arr:
+        timestamp_value = dictionary[timestamp_key]
+        if timestamp_value not in merged_dict:
+            merged_dict[timestamp_value] = dictionary
+        else:
+            merged_dict[timestamp_value] = merge_dicts(merged_dict[timestamp_value], dictionary)
+    
+    return list(merged_dict.values())
 
-    for dictionary in sorted_list:
-        value = dictionary.get(attribute, None)
-        if value not in unique_values:
-            unique_values.add(value)
-            result.append(dictionary)
-
-    return result
+def merge_dicts(dict1, dict2):
+    merged_dict = dict1.copy()
+    
+    for key, value in dict2.items():
+        if key in merged_dict:
+            merged_dict[key] += value
+        else:
+            merged_dict[key] = value
+    
+    return merged_dict
 
 def add_rule_to_file(raw_text, active, filepath):
     if not os.path.exists(filepath):
